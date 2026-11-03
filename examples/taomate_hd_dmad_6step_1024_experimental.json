@@ -1,0 +1,1239 @@
+{
+  "id": "4371dcb6-2f3e-4339-9568-4a7af1475123",
+  "revision": 0,
+  "last_node_id": 22,
+  "last_link_id": 30,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        -1537.5182339191254,
+        -139.31216593727245
+      ],
+      "size": [
+        352.0973649792471,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors\\minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors\\minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "weight_dtype": "default"
+      }
+    },
+    {
+      "id": 3,
+      "type": "MiniMaxH3SigmaShift",
+      "pos": [
+        -935.6970152312,
+        413.69715183389127
+      ],
+      "size": [
+        355.9019192678095,
+        82
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 29
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "title": "ModelSamplingMiniMaxH3",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "MiniMaxH3SigmaShift"
+      },
+      "widgets_values": [
+        12,
+        2
+      ],
+      "widgets_values_named": {
+        "shift_video": 12,
+        "shift_audio": 3
+      }
+    },
+    {
+      "id": 4,
+      "type": "CLIPLoader",
+      "pos": [
+        -937.7460555972953,
+        539.3012772351617
+      ],
+      "size": [
+        358.63397308926983,
+        106
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "MiniMax-H3\\qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "MiniMax-H3\\qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "type": "minimax",
+        "device": "default"
+      }
+    },
+    {
+      "id": 5,
+      "type": "VAELoader",
+      "pos": [
+        -935.6970152312,
+        694.9054026364316
+      ],
+      "size": [
+        360,
+        100
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            5,
+            10
+          ]
+        }
+      ],
+      "title": "Video VAE",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "MiniMax-H3\\minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "MiniMax-H3\\minimax_h3_video_vae_fp16.safetensors"
+      }
+    },
+    {
+      "id": 6,
+      "type": "VAELoader",
+      "pos": [
+        -940,
+        850
+      ],
+      "size": [
+        360,
+        100
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "title": "Audio VAE",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "MiniMax-H3\\minimax_h3_audio_vae_fp32.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "MiniMax-H3\\minimax_h3_audio_vae_fp32.safetensors"
+      }
+    },
+    {
+      "id": 7,
+      "type": "MiniMaxH3ImageToVideo",
+      "pos": [
+        -500,
+        0
+      ],
+      "size": [
+        430,
+        500
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 4
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 5
+        },
+        {
+          "name": "first_frame",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "last_frame",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 18
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 19
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "widget": {
+            "name": "length"
+          },
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            6
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "title": "MiniMax H3 T2VA condition + empty AV latent",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "MiniMaxH3ImageToVideo"
+      },
+      "widgets_values": [
+        "Summary: A young East Asian woman sits at a wooden table in a warm sunlit room and speaks directly to the camera in one continuous shot.\nNarration: Medium close-up, static eye-level camera, realistic skin texture, soft window light, warm neutral colors, shallow depth of field. One person only, no cuts, no camera movement, no text, no subtitles, no logos.\nSpeaker_1's Appearance: A young East Asian woman with natural makeup, dark hair tied back, wearing a simple cream blouse.\nSpeaker_1's Actions: She sits upright, looks into the camera, and speaks naturally with small hand gestures. Hands remain anatomically natural.\nSpeaker 1 (S1) says: <d>[Chinese] 大家好，这是 TaoMate HD 在 ComfyUI 中的第一次测试。今天我们来验证渐进分辨率采样是否正常。</d>\nSpeaker_1's Voice Description: Young adult female, warm, clear Mandarin.\nSound-Visual Alignment: Clear dry voice, no music, natural lip sync, no overlapping speech.",
+        480,
+        864,
+        124
+      ],
+      "widgets_values_named": {
+        "prompt": "Summary: A young East Asian woman sits at a wooden table in a warm sunlit room and speaks directly to the camera in one continuous shot.\nNarration: Medium close-up, static eye-level camera, realistic skin texture, soft window light, warm neutral colors, shallow depth of field. One person only, no cuts, no camera movement, no text, no subtitles, no logos.\nSpeaker_1's Appearance: A young East Asian woman with natural makeup, dark hair tied back, wearing a simple cream blouse.\nSpeaker_1's Actions: She sits upright, looks into the camera, and speaks naturally with small hand gestures. Hands remain anatomically natural.\nSpeaker 1 (S1) says: <d>[Chinese] 大家好，这是 TaoMate HD 在 ComfyUI 中的第一次测试。今天我们来验证渐进分辨率采样是否正常。</d>\nSpeaker_1's Voice Description: Young adult female, warm, clear Mandarin.\nSound-Visual Alignment: Clear dry voice, no music, natural lip sync, no overlapping speech.",
+        "width": 480,
+        "height": 864,
+        "length": 124
+      }
+    },
+    {
+      "id": 8,
+      "type": "TaoMateHDProgressiveSampler",
+      "pos": [
+        10,
+        0
+      ],
+      "size": [
+        400,
+        220
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 17
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 6
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            8
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TaoMateHDProgressiveSampler"
+      },
+      "widgets_values": [
+        666,
+        "fixed",
+        6,
+        1.0,
+        0.9,
+        false
+      ],
+      "widgets_values_named": {
+        "seed": 666,
+        "control_after_generate": "fixed",
+        "low_scale": 0.9,
+        "debug": false
+      }
+    },
+    {
+      "id": 9,
+      "type": "LTXVSeparateAVLatent",
+      "pos": [
+        460,
+        0
+      ],
+      "size": [
+        300,
+        130
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "av_latent",
+          "type": "LATENT",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video_latent",
+          "type": "LATENT",
+          "links": [
+            9
+          ]
+        },
+        {
+          "name": "audio_latent",
+          "type": "LATENT",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "title": "Separate AV Latent",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "LTXVSeparateAVLatent"
+      }
+    },
+    {
+      "id": 10,
+      "type": "VAEDecode",
+      "pos": [
+        800,
+        -80
+      ],
+      "size": [
+        280,
+        120
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 9
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 11,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        800,
+        90
+      ],
+      "size": [
+        280,
+        120
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 11
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            14
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "VAEDecodeAudio"
+      }
+    },
+    {
+      "id": 12,
+      "type": "CreateVideo",
+      "pos": [
+        1120,
+        0
+      ],
+      "size": [
+        300,
+        190
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 13
+        },
+        {
+          "name": "audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            15
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        "auto",
+        "sRGB",
+        "none"
+      ],
+      "widgets_values_named": {
+        "fps": 24,
+        "bit_depth": "auto",
+        "color_space": "sRGB",
+        "codec": "none"
+      }
+    },
+    {
+      "id": 13,
+      "type": "SaveVideo",
+      "pos": [
+        1460,
+        0
+      ],
+      "size": [
+        340,
+        220
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "title": "Save TaoMate HD video",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "TaoMateHD/taomate_hd_dmad_6step_1024_experimental",
+        "auto",
+        "auto",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "TaoMateHD/taomate_hd_t2va_5s_480p",
+        "format": "auto",
+        "format.codec": "auto",
+        "codec": "auto"
+      }
+    },
+    {
+      "id": 14,
+      "type": "MarkdownNote",
+      "pos": [
+        -940,
+        1010
+      ],
+      "size": [
+        520,
+        260
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MarkdownNote"
+      },
+      "widgets_values": [
+        "TaoMate HD 5s T2VA example\n\nResolution: 480x864, 124 frames, 24 FPS.\nLoRA: TaoMate-HD-preview-comfy.safetensors\n\nThis workflow uses T2VA. Ref2VA can use the same sampler through native H3 minimax_refs conditioning. First/last-frame FL2VA keyframes are not supported.\n\nUse LoraLoaderModelOnly strength 1.0 with the converted LoRA. The source TaoMate adapter must not be loaded directly."
+      ],
+      "widgets_values_named": {
+        "text": "TaoMate HD 5s T2VA example\n\nResolution: 480x864, 124 frames, 24 FPS.\nLoRA: TaoMate-HD-preview-comfy.safetensors\n\nThis workflow uses T2VA. Ref2VA can use the same sampler through native H3 minimax_refs conditioning. First/last-frame FL2VA keyframes are not supported.\n\nUse LoraLoaderModelOnly strength 1.0 with the converted LoRA. The source TaoMate adapter must not be loaded directly."
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 15,
+      "type": "ModelPreviewOverrideKJ",
+      "pos": [
+        -447.36710754122544,
+        556.073756259893
+      ],
+      "size": [
+        360,
+        480
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 16
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "preview_frames",
+          "type": "INT",
+          "widget": {
+            "name": "preview_frames"
+          },
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelPreviewOverrideKJ"
+      },
+      "widgets_values": [
+        1024,
+        80,
+        true,
+        1,
+        12,
+        "taeh3.safetensors",
+        ""
+      ],
+      "widgets_values_named": {
+        "max_resolution": 1024,
+        "jpeg_quality": 80,
+        "suppress_default_preview": true,
+        "preview_frames": 1,
+        "preview_fps": 12,
+        "tiny_vae": "taeh3.safetensors",
+        "preview": ""
+      }
+    },
+    {
+      "id": 16,
+      "type": "ResolutionSelector",
+      "pos": [
+        -936.3248861410264,
+        -212.93886182783564
+      ],
+      "size": [
+        342.12622088655144,
+        150
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            18
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "ResolutionSelector"
+      },
+      "widgets_values": [
+        "1:1 (Square)",
+        1,
+        8
+      ],
+      "widgets_values_named": {
+        "aspect_ratio": "1:1 (Square)",
+        "megapixels": 1,
+        "multiple": 8
+      }
+    },
+    {
+      "id": 17,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -944.7520181818192,
+        -338.83795454545526
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "title": "Float (Duration)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.30.0",
+        "Node name for S&R": "PrimitiveFloat",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.5.2",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        10
+      ],
+      "widgets_values_named": {
+        "value": 10
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 18,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -650.3520181818184,
+        -329.4511545454548
+      ],
+      "size": [
+        225,
+        116
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "a",
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 20
+        },
+        {
+          "name": "values.b",
+          "shape": 7,
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            21,
+            30
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.30.0",
+        "Node name for S&R": "ComfyMathExpression",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.5.2",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "widgets_values_named": {
+        "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      }
+    },
+    {
+      "id": 19,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        -1516.6416228399705,
+        -9.226145755071562
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "TaoMate-HD-preview-comfy.safetensors",
+        1
+      ],
+      "widgets_values_named": {
+        "lora_name": "TaoMate-HD-preview-comfy.safetensors",
+        "strength_model": 1
+      }
+    },
+    {
+      "id": 20,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        -1228.2528515811762,
+        -9.567652482754056
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            26
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "dmad_minimax_h3_4step_full_critic_comfy.safetensors",
+        1
+      ],
+      "widgets_values_named": {
+        "lora_name": "dmad_minimax_h3_4step_full_critic_comfy.safetensors",
+        "strength_model": 1
+      }
+    },
+    {
+      "id": 21,
+      "type": "ModelAttentionBackend",
+      "pos": [
+        -1514.5509871803476,
+        135.88878983204245
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            28
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "ModelAttentionBackend"
+      },
+      "widgets_values": [
+        "comfy kitchen attention"
+      ],
+      "widgets_values_named": {
+        "attention": "comfy kitchen attention"
+      }
+    },
+    {
+      "id": 22,
+      "type": "BlockSparseAttention",
+      "pos": [
+        -1222.6146666133482,
+        120.07448820765569
+      ],
+      "size": [
+        270,
+        250
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": [
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.43.0",
+        "Node name for S&R": "BlockSparseAttention"
+      },
+      "widgets_values": [
+        "sol-attn",
+        1.3,
+        0.2,
+        1,
+        "",
+        12288,
+        256,
+        "exact_kv_and_rows",
+        false
+      ],
+      "widgets_values_named": {
+        "selection": "sol-attn",
+        "selection.tau": 1.3,
+        "start_percent": 0.2,
+        "end_percent": 1,
+        "dense_blocks": "",
+        "min_tokens": 12288,
+        "extra_tokens": 256,
+        "sink_conditioning": "exact_kv_and_rows",
+        "verbose": false
+      }
+    }
+  ],
+  "links": [
+    [
+      4,
+      4,
+      0,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      5,
+      0,
+      7,
+      1,
+      "VAE"
+    ],
+    [
+      6,
+      7,
+      0,
+      8,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      7,
+      7,
+      1,
+      8,
+      2,
+      "LATENT"
+    ],
+    [
+      8,
+      8,
+      0,
+      9,
+      0,
+      "LATENT"
+    ],
+    [
+      9,
+      9,
+      0,
+      10,
+      0,
+      "LATENT"
+    ],
+    [
+      10,
+      5,
+      0,
+      10,
+      1,
+      "VAE"
+    ],
+    [
+      11,
+      9,
+      1,
+      11,
+      0,
+      "LATENT"
+    ],
+    [
+      12,
+      6,
+      0,
+      11,
+      1,
+      "VAE"
+    ],
+    [
+      13,
+      10,
+      0,
+      12,
+      0,
+      "IMAGE"
+    ],
+    [
+      14,
+      11,
+      0,
+      12,
+      1,
+      "AUDIO"
+    ],
+    [
+      16,
+      3,
+      0,
+      15,
+      0,
+      "MODEL"
+    ],
+    [
+      17,
+      15,
+      0,
+      8,
+      0,
+      "MODEL"
+    ],
+    [
+      18,
+      16,
+      0,
+      7,
+      4,
+      "INT"
+    ],
+    [
+      19,
+      16,
+      1,
+      7,
+      5,
+      "INT"
+    ],
+    [
+      15,
+      12,
+      0,
+      13,
+      0,
+      "VIDEO"
+    ],
+    [
+      20,
+      17,
+      0,
+      18,
+      0,
+      "FLOAT"
+    ],
+    [
+      21,
+      18,
+      1,
+      7,
+      6,
+      "INT"
+    ],
+    [
+      23,
+      1,
+      0,
+      19,
+      0,
+      "MODEL"
+    ],
+    [
+      24,
+      19,
+      0,
+      20,
+      0,
+      "MODEL"
+    ],
+    [
+      26,
+      20,
+      0,
+      21,
+      0,
+      "MODEL"
+    ],
+    [
+      28,
+      21,
+      0,
+      22,
+      0,
+      "MODEL"
+    ],
+    [
+      29,
+      22,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      30,
+      18,
+      1,
+      15,
+      2,
+      "INT"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 2.1435888100000016,
+      "offset": [
+        620.1609680253413,
+        129.94478522713155
+      ]
+    },
+    "frontendVersion": "1.57.6",
+    "VHS_latentpreview": true,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}

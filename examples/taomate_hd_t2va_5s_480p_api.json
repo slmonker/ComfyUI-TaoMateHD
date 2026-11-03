@@ -1,0 +1,154 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_hybrid_fl2va_ref2va_b30-49-int8.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "lora_name": "TaoMate-HD-preview-comfy.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "1",
+        0
+      ]
+    }
+  },
+  "3": {
+    "class_type": "MiniMaxH3SigmaShift",
+    "inputs": {
+      "shift_video": 12.0,
+      "shift_audio": 3.0,
+      "model": [
+        "2",
+        0
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "MiniMax-H3\\qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "5": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_audio_vae_fp32.safetensors"
+    }
+  },
+  "7": {
+    "class_type": "MiniMaxH3ImageToVideo",
+    "inputs": {
+      "prompt": "Summary: A young East Asian woman sits at a wooden table in a warm sunlit room and speaks directly to the camera in one continuous shot.\nNarration: Medium close-up, static eye-level camera, realistic skin texture, soft window light, warm neutral colors, shallow depth of field. One person only, no cuts, no camera movement, no text, no subtitles, no logos.\nSpeaker_1's Appearance: A young East Asian woman with natural makeup, dark hair tied back, wearing a simple cream blouse.\nSpeaker_1's Actions: She sits upright, looks into the camera, and speaks naturally with small hand gestures. Hands remain anatomically natural.\nSpeaker 1 (S1) says: <d>[Chinese] 大家好，这是 TaoMate HD 在 ComfyUI 中的第一次测试。今天我们来验证渐进分辨率采样是否正常。</d>\nSpeaker_1's Voice Description: Young adult female, warm, clear Mandarin.\nSound-Visual Alignment: Clear dry voice, no music, natural lip sync, no overlapping speech.",
+      "width": 480,
+      "height": 864,
+      "length": 124,
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "TaoMateHDProgressiveSampler",
+    "inputs": {
+      "seed": 8301,
+      "steps": 3,
+      "cfg": 1.0,
+      "low_scale": 0.625,
+      "debug": true,
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ],
+      "latent": [
+        "7",
+        1
+      ]
+    }
+  },
+  "9": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "8",
+        0
+      ]
+    }
+  },
+  "10": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "VAEDecodeAudio",
+    "inputs": {
+      "samples": [
+        "9",
+        1
+      ],
+      "vae": [
+        "6",
+        0
+      ]
+    }
+  },
+  "12": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "fps": 24.0,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "codec": "none",
+      "images": [
+        "10",
+        0
+      ],
+      "audio": [
+        "11",
+        0
+      ]
+    }
+  },
+  "13": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "filename_prefix": "TaoMateHD/taomate_hd_t2va_5s_480p",
+      "format": "auto",
+      "codec": "auto",
+      "video": [
+        "12",
+        0
+      ]
+    }
+  }
+}

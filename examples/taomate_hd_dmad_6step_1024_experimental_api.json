@@ -1,0 +1,341 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors\\minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "3": {
+    "inputs": {
+      "shift_video": 12.0,
+      "shift_audio": 2.0,
+      "model": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3SigmaShift",
+    "_meta": {
+      "title": "ModelSamplingMiniMaxH3",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "4": {
+    "inputs": {
+      "clip_name": "MiniMax-H3\\qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+      "type": "minimax",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "5": {
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Video VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "6": {
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Audio VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "7": {
+    "inputs": {
+      "prompt": "Summary: A young East Asian woman sits at a wooden table in a warm sunlit room and speaks directly to the camera in one continuous shot.\nNarration: Medium close-up, static eye-level camera, realistic skin texture, soft window light, warm neutral colors, shallow depth of field. One person only, no cuts, no camera movement, no text, no subtitles, no logos.\nSpeaker_1's Appearance: A young East Asian woman with natural makeup, dark hair tied back, wearing a simple cream blouse.\nSpeaker_1's Actions: She sits upright, looks into the camera, and speaks naturally with small hand gestures. Hands remain anatomically natural.\nSpeaker 1 (S1) says: <d>[Chinese] 大家好，这是 TaoMate HD 在 ComfyUI 中的第一次测试。今天我们来验证渐进分辨率采样是否正常。</d>\nSpeaker_1's Voice Description: Young adult female, warm, clear Mandarin.\nSound-Visual Alignment: Clear dry voice, no music, natural lip sync, no overlapping speech.",
+      "width": [
+        "16",
+        0
+      ],
+      "height": [
+        "16",
+        1
+      ],
+      "length": [
+        "18",
+        1
+      ],
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3ImageToVideo",
+    "_meta": {
+      "title": "MiniMax H3 T2VA condition + empty AV latent",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "8": {
+    "inputs": {
+      "seed": 666,
+      "low_scale": 0.9,
+      "debug": false,
+      "model": [
+        "15",
+        0
+      ],
+      "positive": [
+        "7",
+        0
+      ],
+      "latent": [
+        "7",
+        1
+      ],
+      "steps": 6,
+      "cfg": 1.0
+    },
+    "class_type": "TaoMateHDProgressiveSampler",
+    "_meta": {
+      "title": "TaoMate HD Progressive Sampler"
+    }
+  },
+  "9": {
+    "inputs": {
+      "av_latent": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "LTXVSeparateAVLatent",
+    "_meta": {
+      "title": "Separate AV Latent",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "10": {
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "11": {
+    "inputs": {
+      "samples": [
+        "9",
+        1
+      ],
+      "vae": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeAudio",
+    "_meta": {
+      "title": "VAE解码（音频）",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "12": {
+    "inputs": {
+      "fps": 24.0,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "codec": "none",
+      "images": [
+        "10",
+        0
+      ],
+      "audio": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "创建视频",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "TaoMateHD/taomate_hd_dmad_6step_1024_experimental",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Save TaoMate HD video",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "15": {
+    "inputs": {
+      "max_resolution": 1024,
+      "jpeg_quality": 80,
+      "suppress_default_preview": true,
+      "preview_frames": [
+        "18",
+        1
+      ],
+      "preview_fps": 12,
+      "tiny_vae": "taeh3.safetensors",
+      "model": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "ModelPreviewOverrideKJ",
+    "_meta": {
+      "title": "Model Preview Override"
+    }
+  },
+  "16": {
+    "inputs": {
+      "aspect_ratio": "1:1 (Square)",
+      "megapixels": 1.0,
+      "multiple": 8
+    },
+    "class_type": "ResolutionSelector",
+    "_meta": {
+      "title": "分辨率选择器",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "17": {
+    "inputs": {
+      "value": 10.0
+    },
+    "class_type": "PrimitiveFloat",
+    "_meta": {
+      "title": "Float (Duration)",
+      "cnr_id": "comfy-core",
+      "ver": "0.30.0"
+    }
+  },
+  "18": {
+    "inputs": {
+      "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17",
+      "values.a": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "数学表达式",
+      "cnr_id": "comfy-core",
+      "ver": "0.30.0"
+    }
+  },
+  "19": {
+    "inputs": {
+      "lora_name": "TaoMate-HD-preview-comfy.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "20": {
+    "inputs": {
+      "lora_name": "dmad_minimax_h3_4step_full_critic_comfy.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "21": {
+    "inputs": {
+      "attention": "comfy kitchen attention",
+      "model": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "ModelAttentionBackend",
+    "_meta": {
+      "title": "模型注意力后端",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  },
+  "22": {
+    "inputs": {
+      "selection": "sol-attn",
+      "selection.tau": 1.3,
+      "start_percent": 0.2,
+      "end_percent": 1.0,
+      "dense_blocks": "",
+      "min_tokens": 12288,
+      "extra_tokens": 256,
+      "sink_conditioning": "exact_kv_and_rows",
+      "verbose": false,
+      "model": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "BlockSparseAttention",
+    "_meta": {
+      "title": "模型稀疏注意力",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.0"
+    }
+  }
+}
