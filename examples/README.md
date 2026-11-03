@@ -2,6 +2,11 @@
 
 The directory contains UI workflows and API twins:
 
+- `taomateHD_t2va.json`
+  - 480 x 864, 124 frames, native MiniMax H3 T2VA conditioning
+- `taomateHD_ref2va.json`
+  - 480 x 864, 124 frames, native MiniMax H3 Ref2VA conditioning
+  - Replace the `Load reference image` placeholder `example.png` with your own image
 - `taomate_hd_t2va_5s_480p.json`
   - 480 x 864, 124 frames, 24 FPS
   - Recommended for a single-GPU smoke test

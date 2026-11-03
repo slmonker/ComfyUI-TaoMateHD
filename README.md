@@ -143,10 +143,14 @@ Values above `3` only subdivide TaoMate's stages. They are experimental and are 
 
 See [`examples/`](examples/):
 
+- `taomateHD_t2va.json` - 480x864, 124 frames, native T2VA conditioning
+- `taomateHD_ref2va.json` - 480x864, 124 frames, native Ref2VA conditioning with a reference-image input
 - `taomate_hd_t2va_5s_480p.json` - 480x864, 124 frames, recommended first smoke test
 - `taomate_hd_t2va_5s_768p.json` - 768x1376, 124 frames, higher VRAM
-- API twins are included for automation
+- API twins are included for the original generated examples
 - `taomate_hd_dmad_6step_1024_experimental.json` - experimental combined setup
+
+In `taomateHD_ref2va.json`, replace the `Load reference image` placeholder (`example.png`) with your own reference image before running.
 
 Model names in the workflows are unqualified ComfyUI model names. Select the corresponding files installed in your own ComfyUI model directories.
 
