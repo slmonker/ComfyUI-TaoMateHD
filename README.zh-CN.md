@@ -150,7 +150,7 @@ Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件�
   - 480 × 864，124 帧，原生 T2VA 条件
 - `taomateHD_ref2va.json`
   - 480 × 864，124 帧，原生 Ref2VA 条件
-  - 导入后请把 `Load reference image` 节点中的占位文件 `example.png` 替换为自己的参考图
+  - 导入后请在 `LoadImage` 节点中选择自己的参考图
 
 模型文件名使用 ComfyUI 中实际安装的模型名。请按本机环境选择对应的 H3 模型、文本编码器、视频 VAE 和音频 VAE。
 

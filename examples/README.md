@@ -6,7 +6,7 @@ This directory contains two UI workflows:
   - 480 x 864, 124 frames, native MiniMax H3 T2VA conditioning
 - `taomateHD_ref2va.json`
   - 480 x 864, 124 frames, native MiniMax H3 Ref2VA conditioning
-  - Replace the `Load reference image` placeholder `example.png` with your own image
+  - Choose your own reference image in the `LoadImage` node before running
 
 Both workflows expect:
 

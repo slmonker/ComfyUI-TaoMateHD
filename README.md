@@ -148,7 +148,7 @@ See [`examples/`](examples/):
 - `taomateHD_t2va.json` - 480x864, 124 frames, native T2VA conditioning
 - `taomateHD_ref2va.json` - 480x864, 124 frames, native Ref2VA conditioning with a reference-image input
 
-In `taomateHD_ref2va.json`, replace the `Load reference image` placeholder (`example.png`) with your own reference image before running.
+In `taomateHD_ref2va.json`, choose your own reference image in the `LoadImage` node before running.
 
 Model names in the workflows are unqualified ComfyUI model names. Select the corresponding files installed in your own ComfyUI model directories.
 
