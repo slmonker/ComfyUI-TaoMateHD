@@ -23,6 +23,12 @@ from .progressive import (
     lift_video_latent,
     progressive_stage_sigmas,
 )
+from .latent_mask import (
+    masks_for_video_shape,
+    normalize_noise_mask,
+    resize_video_latent,
+    restore_kept,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -39,8 +45,7 @@ def _as_nested_streams(samples):
 def _validate_h3_latent(latent):
     if not isinstance(latent, dict) or "samples" not in latent:
         raise ValueError("latent must be a ComfyUI latent dictionary")
-    if "noise_mask" in latent:
-        raise ValueError("TaoMate HD progressive sampler does not support latent noise masks")
+    noise_mask = latent.get("noise_mask")
     video, audio = _as_nested_streams(latent["samples"])
     if video.ndim != 5 or int(video.shape[1]) != 24:
         raise ValueError(f"expected H3 video latent [B,24,T,H,W], got {tuple(video.shape)}")
@@ -59,7 +64,7 @@ def _validate_h3_latent(latent):
             f"{frame_count} frames ({expected_audio_t} audio latents)"
         )
     high = ProgressiveCanvas.from_video_latent(video)
-    return video, audio, high
+    return video, audio, high, noise_mask
 
 
 def _validate_conditioning(conditioning, *, name):
@@ -80,9 +85,10 @@ def _validate_conditioning(conditioning, *, name):
 class _TaoMateStageSampler:
     """One Euler state transition with optional continuation from the input state."""
 
-    def __init__(self, *, start_from_latent: bool, stage_name: str):
+    def __init__(self, *, start_from_latent: bool, stage_name: str, latent_anchor=None):
         self.start_from_latent = bool(start_from_latent)
         self.stage_name = stage_name
+        self.latent_anchor = latent_anchor
         self.last_denoised = None
 
     @torch.no_grad()
@@ -97,8 +103,8 @@ class _TaoMateStageSampler:
         denoise_mask=None,
         disable_pbar=False,
     ):
-        if denoise_mask is not None:
-            raise ValueError("TaoMate HD progressive stages do not support denoise masks")
+        if denoise_mask is not None and self.latent_anchor is None:
+            raise ValueError(f"{self.stage_name}: masked stage is missing its clean latent anchor")
         if len(sigmas) < 2:
             raise ValueError(f"{self.stage_name}: expected at least two sigma boundaries")
         model_sampling = model_wrap.inner_model.model_sampling
@@ -112,11 +118,25 @@ class _TaoMateStageSampler:
             )
 
         total_steps = len(sigmas) - 1
+        anchor = None
+        masked_model = None
+        if denoise_mask is not None:
+            anchor = self.latent_anchor.to(device=x.device, dtype=x.dtype)
+            anchor = model_wrap.inner_model.process_latent_in(anchor)
+            masked_model = comfy.samplers.KSamplerX0Inpaint(model_wrap, sigmas)
+            masked_model.latent_image = anchor
+            masked_model.noise = noise
+
         for step in range(total_steps):
             sigma = sigmas[step]
             sigma_next = sigmas[step + 1]
             s_in = x.new_ones([x.shape[0]])
-            denoised = model_wrap(x, sigma * s_in, **extra_args)
+            if masked_model is None:
+                denoised = model_wrap(x, sigma * s_in, **extra_args)
+            else:
+                denoised = masked_model(
+                    x, sigma * s_in, denoise_mask=denoise_mask, **extra_args
+                )
             self.last_denoised = denoised
             if callback is not None:
                 callback(step, denoised, x, total_steps)
@@ -125,6 +145,8 @@ class _TaoMateStageSampler:
             else:
                 ratio = sigma_next / sigma
                 x = x + (denoised - x) * (1.0 - ratio)
+            if denoise_mask is not None:
+                x = torch.where(denoise_mask == 0, anchor, x)
         return x
 
 
@@ -148,9 +170,22 @@ def _split_sigma_interval(start: float, end: float, steps: int) -> list[float]:
     return [float(start + (end - start) * index / steps) for index in range(steps + 1)]
 
 
-def _run_stage(guider, *, noise, latent_image, sigmas, start_from_latent, stage_name, seed):
+def _run_stage(
+    guider,
+    *,
+    noise,
+    latent_image,
+    sigmas,
+    start_from_latent,
+    stage_name,
+    seed,
+    denoise_mask=None,
+    latent_anchor=None,
+):
     sampler = _TaoMateStageSampler(
-        start_from_latent=start_from_latent, stage_name=stage_name
+        start_from_latent=start_from_latent,
+        stage_name=stage_name,
+        latent_anchor=latent_anchor,
     )
     sigma_tensor = torch.tensor(sigmas, dtype=torch.float32)
     LOGGER.info(
@@ -166,7 +201,7 @@ def _run_stage(guider, *, noise, latent_image, sigmas, start_from_latent, stage_
         latent_image,
         sampler,
         sigma_tensor,
-        denoise_mask=None,
+        denoise_mask=denoise_mask,
         callback=None,
         disable_pbar=True,
         seed=seed,
@@ -198,7 +233,7 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
                 io.Latent.Input(
                     "latent",
                     optional=True,
-                    tooltip="Empty MiniMax H3 AV latent. Marked optional only so the UI keeps negative below positive; it is required at execution time.",
+                    tooltip="MiniMax H3 AV latent. Optional noise_mask is supported; 0 preserves the clean latent and 1 generates. Marked optional only so the UI keeps negative below positive; it is required at execution time.",
                 ),
                 io.Int.Input(
                     "seed",
@@ -254,7 +289,8 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
         _validate_conditioning(positive, name="positive")
         if float(cfg) != 1.0 and negative is None:
             raise ValueError("cfg > 1.0 requires the optional negative conditioning input")
-        video, audio, high_canvas = _validate_h3_latent(latent)
+        video, audio, high_canvas, noise_mask = _validate_h3_latent(latent)
+        masks = normalize_noise_mask(noise_mask, video, audio)
         low_canvas = derive_low_canvas(high_canvas, float(low_scale))
         stage_sigmas = progressive_stage_sigmas()
         sigma_0, sigma_16, sigma_33, sigma_49 = (
@@ -277,6 +313,11 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
                 stage_counts,
                 float(cfg),
             )
+            if masks is not None:
+                LOGGER.info(
+                    "[TaoMateHD] normalized AV noise masks: %s",
+                    [tuple(mask.shape) for mask in masks.unbind()],
+                )
 
         video_latent_t = int(video.shape[2])
         low_video = torch.zeros(
@@ -313,6 +354,14 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
             (torch.zeros_like(low_video), torch.zeros_like(low_audio))
         )
         low_empty = comfy.nested_tensor.NestedTensor((low_video, low_audio))
+        low_anchor = high_anchor = low_masks = None
+        if masks is not None:
+            low_video_anchor = resize_video_latent(
+                video, low_canvas.latent_height, low_canvas.latent_width
+            )
+            low_anchor = comfy.utils.pack_latents((low_video_anchor, audio))[0]
+            high_anchor = comfy.utils.pack_latents((video, audio))[0]
+            low_masks = masks_for_video_shape(masks, low_video)
 
         guider = comfy.samplers.CFGGuider(model)
         guider.set_conds(positive, negative if negative is not None else [])
@@ -327,6 +376,8 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
             start_from_latent=False,
             stage_name="low-0-to-16",
             seed=int(seed),
+            denoise_mask=low_masks,
+            latent_anchor=low_anchor,
         ).to(comfy.model_management.intermediate_device())
         pbar.update(1)
 
@@ -338,6 +389,8 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
             start_from_latent=True,
             stage_name="low-16-to-33",
             seed=int(seed),
+            denoise_mask=low_masks,
+            latent_anchor=low_anchor,
         ).to(comfy.model_management.intermediate_device())
         pbar.update(1)
 
@@ -364,8 +417,14 @@ class TaoMateHDProgressiveSampler(io.ComfyNode):
             start_from_latent=True,
             stage_name="high-33-to-49",
             seed=int(seed),
+            denoise_mask=masks,
+            latent_anchor=high_anchor,
         ).to(comfy.model_management.intermediate_device())
         pbar.update(1)
+        if masks is not None:
+            stage3 = comfy.nested_tensor.NestedTensor(
+                restore_kept(stage3.unbind(), (video, audio), masks.unbind())
+            )
         out = latent.copy()
         out["samples"] = stage3
         out.pop("noise_mask", None)

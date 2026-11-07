@@ -117,6 +117,23 @@ MiniMax H3 Reference to Video
 
 Use a Ref2VA-capable or hybrid H3 checkpoint for this path. Reference conditioning is carried through all three sampling stages using the same native `positive` input.
 
+### Digital human / source-audio preservation
+
+Example workflow: `examples/taomate_hd_digital_human.json`; API twin: `examples/taomate_hd_digital_human_api.json`.
+
+```text
+LoadImage / LoadAudio
+  -> MiniMaxH3ReferenceToVideo
+  -> LTXVAudioVAEEncode -> SolidMask(0) -> SetLatentNoiseMask
+  -> LTXVConcatAVLatent
+  -> TaoMateHDProgressiveSampler
+```
+
+- mask `1` generates; mask `0` preserves.
+- Use `SolidMask=0` on the audio latent to preserve the source voice and drive lip sync.
+- Leave the video latent unmasked so H3 generates the picture.
+- The example is 5 seconds, 480x864, 124 frames. If you change `TrimAudioDuration.duration`, update `MiniMaxH3ReferenceToVideo.length` at 24 FPS and according to the 17-frame alignment rule.
+
 ## Node inputs
 
 | Input | Description |
@@ -161,7 +178,7 @@ This release is a single-window proof of concept and does not include the upstre
 - T2VA supported
 - Ref2VA supported experimentally through native H3 conditioning
 - FL2VA first/last-frame keyframes are not implemented
-- Denoise masks are not supported
+- AV latent masks are supported, including digital-human audio preservation (`0` preserves, `1` generates)
 - No 5-second window loop
 - No cross-window stage-local KV cache
 - No 8-GPU 1/1/4/2 pipeline

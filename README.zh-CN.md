@@ -118,6 +118,23 @@ MiniMax H3 Reference to Video
 
 Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件会通过同一个原生 `positive` 输入贯穿三个采样阶段。
 
+### 数字人 / 源音频保留
+
+示例工作流：`examples/taomate_hd_digital_human.json`，API twin：`examples/taomate_hd_digital_human_api.json`。
+
+```text
+LoadImage / LoadAudio
+  -> MiniMaxH3ReferenceToVideo
+  -> LTXVAudioVAEEncode -> SolidMask(0) -> SetLatentNoiseMask
+  -> LTXVConcatAVLatent
+  -> TaoMateHDProgressiveSampler
+```
+
+- mask `1` = 生成，mask `0` = 保留。
+- 音频 latent 使用 `SolidMask=0`，采样时保留源音频并驱动口型。
+- 视频 latent 不设保留遮罩，因此画面仍由 H3 生成。
+- 示例为 5 秒、480×864、124 帧；修改 `TrimAudioDuration.duration` 时，同时按 24 FPS 和 17 帧对齐规则修改 `MiniMaxH3ReferenceToVideo.length`。
+
 ## 节点输入
 
 | 输入 | 说明 |
@@ -163,7 +180,7 @@ Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件�
 - 支持 T2VA
 - Ref2VA 通过原生 H3 条件支持，属于实验功能
 - 尚未实现 FL2VA 首尾帧 keyframe 条件
-- 不支持 denoise mask
+- 支持 AV latent mask：低清阶段自动缩放视频 mask，音频 mask 原样保留
 - 不包含 5 秒窗口循环
 - 不包含跨窗口 stage-local KV cache
 - 不包含 8 卡 1/1/4/2 流水线

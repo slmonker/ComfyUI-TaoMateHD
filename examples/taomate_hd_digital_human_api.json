@@ -1,0 +1,310 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors\\minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "H3 Hybrid Int8"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "lora_name": "TaoMate-HD-preview-comfy.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "1",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "TaoMate HD Preview LoRA"
+    }
+  },
+  "3": {
+    "class_type": "ModelAttentionBackend",
+    "inputs": {
+      "attention": "comfy kitchen attention",
+      "model": [
+        "2",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Attention: Comfy Kitchen"
+    }
+  },
+  "4": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "MiniMax-H3\\qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+      "type": "minimax",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "MiniMax H3 Text Encoder"
+    }
+  },
+  "5": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_video_vae_fp16.safetensors"
+    },
+    "_meta": {
+      "title": "Video VAE"
+    }
+  },
+  "6": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "MiniMax-H3\\minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "_meta": {
+      "title": "Audio VAE"
+    }
+  },
+  "7": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "67589ad049ae850e774b74a209b91681.png"
+    },
+    "_meta": {
+      "title": "数字人参考图（替换这里）"
+    }
+  },
+  "8": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "prompt": "Use <Picture 1> as the identity, hairstyle, clothing and background reference. A single continuous medium close-up of the same woman speaking directly to camera. Subtle natural head movement, blinking and micro-expressions, stable face and costume, accurate lip sync driven by the provided source audio. Keep the camera mostly static. No cuts, no split screen, no text, no subtitles, no overlays, no extra people.",
+      "width": 480,
+      "height": 864,
+      "length": 124,
+      "ref_image_size": "max",
+      "clip": [
+        "4",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ],
+      "audio_vae": [
+        "6",
+        0
+      ],
+      "ref_images.ref_image_0": [
+        "7",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "参考图 → H3 条件 / AV Latent"
+    }
+  },
+  "9": {
+    "class_type": "LoadAudio",
+    "inputs": {
+      "audio": "self数字人01.mp3"
+    },
+    "_meta": {
+      "title": "数字人源音频（替换这里）"
+    }
+  },
+  "10": {
+    "class_type": "TrimAudioDuration",
+    "inputs": {
+      "start_index": 0.0,
+      "duration": 5.0,
+      "audio": [
+        "9",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "截取 5 秒源音频"
+    }
+  },
+  "11": {
+    "class_type": "LTXVAudioVAEEncode",
+    "inputs": {
+      "audio": [
+        "10",
+        0
+      ],
+      "audio_vae": [
+        "6",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "源音频 → Audio Latent"
+    }
+  },
+  "12": {
+    "class_type": "SolidMask",
+    "inputs": {
+      "value": 0.0,
+      "width": 64,
+      "height": 64
+    },
+    "_meta": {
+      "title": "SolidMask = 0（保留源音频）"
+    }
+  },
+  "13": {
+    "class_type": "SetLatentNoiseMask",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "mask": [
+        "12",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "给 Audio Latent 加保留 Mask"
+    }
+  },
+  "14": {
+    "class_type": "LTXVConcatAVLatent",
+    "inputs": {
+      "video_latent": [
+        "8",
+        1
+      ],
+      "audio_latent": [
+        "13",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "拼接 Video + Audio Latent"
+    }
+  },
+  "15": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "8",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "负条件（cfg=1.0）"
+    }
+  },
+  "16": {
+    "class_type": "TaoMateHDProgressiveSampler",
+    "inputs": {
+      "seed": 666,
+      "steps": 3,
+      "cfg": 1.0,
+      "low_scale": 0.625,
+      "debug": false,
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "15",
+        0
+      ],
+      "latent": [
+        "14",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "TaoMate HD Digital Human Sampler"
+    }
+  },
+  "17": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "16",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "拆分 AV Latent"
+    }
+  },
+  "18": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "17",
+        0
+      ],
+      "vae": [
+        "5",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "视频解码"
+    }
+  },
+  "19": {
+    "class_type": "VAEDecodeAudio",
+    "inputs": {
+      "samples": [
+        "17",
+        1
+      ],
+      "vae": [
+        "6",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "音频解码"
+    }
+  },
+  "20": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "fps": 24,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "chroma_subsampling": "auto",
+      "codec": "none",
+      "images": [
+        "18",
+        0
+      ],
+      "audio": [
+        "19",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "合成视频 + 音频"
+    }
+  },
+  "21": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "filename_prefix": "TaoMateHD/taomate_hd_digital_human",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video": [
+        "20",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "保存数字人视频"
+    }
+  }
+}
