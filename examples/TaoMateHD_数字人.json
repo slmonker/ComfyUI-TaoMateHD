@@ -1,11 +1,12 @@
 {
-  "last_node_id": 21,
-  "last_link_id": 26,
+  "id": "5ba1acc7-49fc-494b-88fc-4e7b63cb6e0a",
+  "revision": 0,
+  "last_node_id": 26,
+  "last_link_id": 32,
   "nodes": [
     {
       "id": 1,
       "type": "UNETLoader",
-      "title": "H3 Hybrid Int8",
       "pos": [
         -1190,
         -810
@@ -17,24 +18,7 @@
       "flags": {},
       "order": 0,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "unet_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "unet_name"
-          },
-          "link": null
-        },
-        {
-          "name": "weight_dtype",
-          "type": "COMBO",
-          "widget": {
-            "name": "weight_dtype"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "MODEL",
@@ -44,6 +28,7 @@
           ]
         }
       ],
+      "title": "H3 Hybrid Int8",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -61,7 +46,6 @@
     {
       "id": 2,
       "type": "LoraLoaderModelOnly",
-      "title": "TaoMate HD Preview LoRA",
       "pos": [
         -1190,
         -660
@@ -71,29 +55,13 @@
         130
       ],
       "flags": {},
-      "order": 1,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
           "link": 1
-        },
-        {
-          "name": "lora_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "lora_name"
-          },
-          "link": null
-        },
-        {
-          "name": "strength_model",
-          "type": "FLOAT",
-          "widget": {
-            "name": "strength_model"
-          },
-          "link": null
         }
       ],
       "outputs": [
@@ -105,6 +73,7 @@
           ]
         }
       ],
+      "title": "TaoMate HD Preview LoRA",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -112,17 +81,16 @@
       },
       "widgets_values": [
         "TaoMate-HD-preview-comfy.safetensors",
-        1.0
+        1
       ],
       "widgets_values_named": {
         "lora_name": "TaoMate-HD-preview-comfy.safetensors",
-        "strength_model": 1.0
+        "strength_model": 1
       }
     },
     {
       "id": 3,
       "type": "ModelAttentionBackend",
-      "title": "Attention: Comfy Kitchen",
       "pos": [
         -1190,
         -480
@@ -132,21 +100,13 @@
         80
       ],
       "flags": {},
-      "order": 2,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
           "link": 2
-        },
-        {
-          "name": "attention",
-          "type": "COMBO",
-          "widget": {
-            "name": "attention"
-          },
-          "link": null
         }
       ],
       "outputs": [
@@ -158,6 +118,7 @@
           ]
         }
       ],
+      "title": "Attention: Comfy Kitchen",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -173,7 +134,6 @@
     {
       "id": 4,
       "type": "CLIPLoader",
-      "title": "MiniMax H3 Text Encoder",
       "pos": [
         -1190,
         -340
@@ -183,34 +143,9 @@
         130
       ],
       "flags": {},
-      "order": 3,
+      "order": 1,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "clip_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "clip_name"
-          },
-          "link": null
-        },
-        {
-          "name": "type",
-          "type": "COMBO",
-          "widget": {
-            "name": "type"
-          },
-          "link": null
-        },
-        {
-          "name": "device",
-          "type": "COMBO",
-          "widget": {
-            "name": "device"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "CLIP",
@@ -220,6 +155,7 @@
           ]
         }
       ],
+      "title": "MiniMax H3 Text Encoder",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -239,7 +175,6 @@
     {
       "id": 5,
       "type": "VAELoader",
-      "title": "Video VAE",
       "pos": [
         -1190,
         -160
@@ -249,18 +184,9 @@
         60
       ],
       "flags": {},
-      "order": 4,
+      "order": 2,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "vae_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "vae_name"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "VAE",
@@ -271,6 +197,7 @@
           ]
         }
       ],
+      "title": "Video VAE",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -286,28 +213,18 @@
     {
       "id": 6,
       "type": "VAELoader",
-      "title": "Audio VAE",
       "pos": [
-        -1190,
-        -60
+        -1188.758157353882,
+        -29.131339939344926
       ],
       "size": [
         390,
         60
       ],
       "flags": {},
-      "order": 5,
+      "order": 3,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "vae_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "vae_name"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "VAE",
@@ -319,6 +236,7 @@
           ]
         }
       ],
+      "title": "Audio VAE",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -334,7 +252,6 @@
     {
       "id": 7,
       "type": "LoadImage",
-      "title": "数字人参考图（替换这里）",
       "pos": [
         -1660,
         -810
@@ -344,26 +261,9 @@
         390
       ],
       "flags": {},
-      "order": 6,
+      "order": 4,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "COMBO",
-          "widget": {
-            "name": "image"
-          },
-          "link": null
-        },
-        {
-          "name": "upload",
-          "type": "IMAGEUPLOAD",
-          "widget": {
-            "name": "upload"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "IMAGE",
@@ -378,6 +278,7 @@
           "links": []
         }
       ],
+      "title": "数字人参考图（替换这里）",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -389,23 +290,22 @@
       ],
       "widgets_values_named": {
         "image": "67589ad049ae850e774b74a209b91681.png",
-        "upload": null
+        "upload": "image"
       }
     },
     {
       "id": 8,
       "type": "MiniMaxH3ReferenceToVideo",
-      "title": "参考图 → H3 条件 / AV Latent",
       "pos": [
-        -590,
-        -810
+        -704.5218417945703,
+        -805.2774498229043
       ],
       "size": [
         430,
         560
       ],
       "flags": {},
-      "order": 7,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -415,28 +315,44 @@
         },
         {
           "name": "vae",
+          "shape": 7,
           "type": "VAE",
-          "link": 5,
-          "shape": 7
+          "link": 5
         },
         {
           "name": "audio_vae",
+          "shape": 7,
           "type": "VAE",
-          "link": 6,
-          "shape": 7
+          "link": 6
         },
         {
           "name": "ref_images.ref_image_0",
+          "shape": 7,
           "type": "IMAGE",
-          "link": 7,
-          "shape": 7
+          "link": 7
         },
         {
-          "name": "prompt",
-          "type": "STRING",
-          "widget": {
-            "name": "prompt"
-          },
+          "name": "ref_images.ref_image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_videos.ref_video_0",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "name": "ref_audios.ref_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
           "link": null
         },
         {
@@ -445,7 +361,7 @@
           "widget": {
             "name": "width"
           },
-          "link": null
+          "link": 28
         },
         {
           "name": "height",
@@ -453,7 +369,7 @@
           "widget": {
             "name": "height"
           },
-          "link": null
+          "link": 29
         },
         {
           "name": "length",
@@ -461,15 +377,7 @@
           "widget": {
             "name": "length"
           },
-          "link": null
-        },
-        {
-          "name": "ref_image_size",
-          "type": "COMBO",
-          "widget": {
-            "name": "ref_image_size"
-          },
-          "link": null
+          "link": 32
         }
       ],
       "outputs": [
@@ -489,6 +397,7 @@
           ]
         }
       ],
+      "title": "参考图 → H3 条件 / AV Latent",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -512,7 +421,6 @@
     {
       "id": 9,
       "type": "LoadAudio",
-      "title": "数字人源音频（替换这里）",
       "pos": [
         -1660,
         -330
@@ -522,34 +430,9 @@
         150
       ],
       "flags": {},
-      "order": 8,
+      "order": 5,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "audio",
-          "type": "COMBO",
-          "widget": {
-            "name": "audio"
-          },
-          "link": null
-        },
-        {
-          "name": "audioUI",
-          "type": "AUDIO_UI",
-          "widget": {
-            "name": "audioUI"
-          },
-          "link": null
-        },
-        {
-          "name": "upload",
-          "type": "AUDIOUPLOAD",
-          "widget": {
-            "name": "upload"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "AUDIO",
@@ -559,34 +442,34 @@
           ]
         }
       ],
+      "title": "数字人源音频（替换这里）",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "LoadAudio"
       },
       "widgets_values": [
-        "self数字人01.mp3",
+        "一个人的夜.mp3",
         null
       ],
       "widgets_values_named": {
-        "audio": "self数字人01.mp3",
+        "audio": "一个人的夜.mp3",
         "upload": null
       }
     },
     {
       "id": 10,
       "type": "TrimAudioDuration",
-      "title": "截取 5 秒源音频",
       "pos": [
-        -590,
-        -170
+        -707.4541738987457,
+        -182.87144244795718
       ],
       "size": [
         390,
         100
       ],
       "flags": {},
-      "order": 9,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -595,20 +478,12 @@
           "link": 11
         },
         {
-          "name": "start_index",
-          "type": "FLOAT",
-          "widget": {
-            "name": "start_index"
-          },
-          "link": null
-        },
-        {
           "name": "duration",
           "type": "FLOAT",
           "widget": {
             "name": "duration"
           },
-          "link": null
+          "link": 30
         }
       ],
       "outputs": [
@@ -616,38 +491,39 @@
           "name": "AUDIO",
           "type": "AUDIO",
           "links": [
-            12
+            12,
+            27
           ]
         }
       ],
+      "title": "音频截取",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "TrimAudioDuration"
       },
       "widgets_values": [
-        0.0,
-        5.0
+        0,
+        5
       ],
       "widgets_values_named": {
-        "start_index": 0.0,
-        "duration": 5.0
+        "start_index": 0,
+        "duration": 5
       }
     },
     {
       "id": 11,
       "type": "LTXVAudioVAEEncode",
-      "title": "源音频 → Audio Latent",
       "pos": [
-        -590,
-        -20
+        -704.5218417945703,
+        -15.277449822904373
       ],
       "size": [
         390,
         80
       ],
       "flags": {},
-      "order": 10,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -670,55 +546,28 @@
           ]
         }
       ],
+      "title": "源音频 → Audio Latent",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "LTXVAudioVAEEncode"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 12,
       "type": "SolidMask",
-      "title": "SolidMask = 0（保留源音频）",
       "pos": [
-        -1660,
-        70
+        -1660.0000000000005,
+        -116.20308861514208
       ],
       "size": [
         360,
         145
       ],
       "flags": {},
-      "order": 11,
+      "order": 6,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "value",
-          "type": "FLOAT",
-          "widget": {
-            "name": "value"
-          },
-          "link": null
-        },
-        {
-          "name": "width",
-          "type": "INT",
-          "widget": {
-            "name": "width"
-          },
-          "link": null
-        },
-        {
-          "name": "height",
-          "type": "INT",
-          "widget": {
-            "name": "height"
-          },
-          "link": null
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "name": "MASK",
@@ -728,18 +577,19 @@
           ]
         }
       ],
+      "title": "SolidMask = 0（保留源音频）",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "SolidMask"
       },
       "widgets_values": [
-        0.0,
+        0,
         64,
         64
       ],
       "widgets_values_named": {
-        "value": 0.0,
+        "value": 0,
         "width": 64,
         "height": 64
       }
@@ -747,17 +597,16 @@
     {
       "id": 13,
       "type": "SetLatentNoiseMask",
-      "title": "给 Audio Latent 加保留 Mask",
       "pos": [
-        -590,
-        120
+        -704.5218417945703,
+        124.72255017709563
       ],
       "size": [
         390,
         70
       ],
       "flags": {},
-      "order": 12,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -780,28 +629,26 @@
           ]
         }
       ],
+      "title": "给 Audio Latent 加保留 Mask",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "SetLatentNoiseMask"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 14,
       "type": "LTXVConcatAVLatent",
-      "title": "拼接 Video + Audio Latent",
       "pos": [
-        -590,
-        250
+        -704.5218417945703,
+        254.72255017709563
       ],
       "size": [
         390,
         80
       ],
       "flags": {},
-      "order": 13,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -824,28 +671,26 @@
           ]
         }
       ],
+      "title": "拼接 Video + Audio Latent",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "LTXVConcatAVLatent"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 15,
       "type": "ConditioningZeroOut",
-      "title": "负条件（cfg=1.0）",
       "pos": [
-        -590,
-        390
+        -704.5218417945703,
+        394.7225501770956
       ],
       "size": [
         390,
         70
       ],
       "flags": {},
-      "order": 14,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -863,28 +708,26 @@
           ]
         }
       ],
+      "title": "负条件（cfg=1.0）",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "ConditioningZeroOut"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 16,
       "type": "TaoMateHDProgressiveSampler",
-      "title": "TaoMate HD Digital Human Sampler",
       "pos": [
-        10,
-        -500
+        -188.3978980958172,
+        -789.7003986772744
       ],
       "size": [
         380,
         300
       ],
       "flags": {},
-      "order": 15,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -899,55 +742,15 @@
         },
         {
           "name": "negative",
+          "shape": 7,
           "type": "CONDITIONING",
-          "link": 18,
-          "shape": 7
+          "link": 18
         },
         {
           "name": "latent",
+          "shape": 7,
           "type": "LATENT",
-          "link": 17,
-          "shape": 7
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "widget": {
-            "name": "seed"
-          },
-          "link": null
-        },
-        {
-          "name": "steps",
-          "type": "INT",
-          "widget": {
-            "name": "steps"
-          },
-          "link": null
-        },
-        {
-          "name": "cfg",
-          "type": "FLOAT",
-          "widget": {
-            "name": "cfg"
-          },
-          "link": null
-        },
-        {
-          "name": "low_scale",
-          "type": "FLOAT",
-          "widget": {
-            "name": "low_scale"
-          },
-          "link": null
-        },
-        {
-          "name": "debug",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "debug"
-          },
-          "link": null
+          "link": 17
         }
       ],
       "outputs": [
@@ -959,6 +762,7 @@
           ]
         }
       ],
+      "title": "TaoMate HD Digital Human Sampler",
       "properties": {
         "Node name for S&R": "TaoMateHDProgressiveSampler"
       },
@@ -966,7 +770,7 @@
         666,
         "fixed",
         3,
-        1.0,
+        1,
         0.625,
         false
       ],
@@ -974,7 +778,7 @@
         "seed": 666,
         "control_after_generate": "fixed",
         "steps": 3,
-        "cfg": 1.0,
+        "cfg": 1,
         "low_scale": 0.625,
         "debug": false
       }
@@ -982,17 +786,16 @@
     {
       "id": 17,
       "type": "LTXVSeparateAVLatent",
-      "title": "拆分 AV Latent",
       "pos": [
-        530,
-        -650
+        299.93179622781423,
+        -809.7178178695831
       ],
       "size": [
         390,
         90
       ],
       "flags": {},
-      "order": 16,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -1017,28 +820,26 @@
           ]
         }
       ],
+      "title": "拆分 AV Latent",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "LTXVSeparateAVLatent"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 18,
       "type": "VAEDecode",
-      "title": "视频解码",
       "pos": [
-        530,
-        -480
+        297.0045957048212,
+        -655.3295539922132
       ],
       "size": [
         390,
         70
       ],
       "flags": {},
-      "order": 17,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -1061,28 +862,26 @@
           ]
         }
       ],
+      "title": "视频解码",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 19,
       "type": "VAEDecodeAudio",
-      "title": "音频解码",
       "pos": [
-        530,
-        -330
+        295.0531286894924,
+        -534.6015592221446
       ],
       "size": [
         390,
         70
       ],
       "flags": {},
-      "order": 18,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1100,33 +899,29 @@
         {
           "name": "AUDIO",
           "type": "AUDIO",
-          "links": [
-            25
-          ]
+          "links": []
         }
       ],
+      "title": "音频解码",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
         "Node name for S&R": "VAEDecodeAudio"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 20,
       "type": "CreateVideo",
-      "title": "合成视频 + 音频",
       "pos": [
-        530,
-        -160
+        292.1259281664993,
+        -409.4853005747066
       ],
       "size": [
         390,
         210
       ],
       "flags": {},
-      "order": 19,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -1136,49 +931,9 @@
         },
         {
           "name": "audio",
+          "shape": 7,
           "type": "AUDIO",
-          "link": 25,
-          "shape": 7
-        },
-        {
-          "name": "fps",
-          "type": "FLOAT",
-          "widget": {
-            "name": "fps"
-          },
-          "link": null
-        },
-        {
-          "name": "bit_depth",
-          "type": "COMBO",
-          "widget": {
-            "name": "bit_depth"
-          },
-          "link": null
-        },
-        {
-          "name": "color_space",
-          "type": "COMBO",
-          "widget": {
-            "name": "color_space"
-          },
-          "link": null
-        },
-        {
-          "name": "chroma_subsampling",
-          "type": "COMBO",
-          "widget": {
-            "name": "chroma_subsampling"
-          },
-          "link": null
-        },
-        {
-          "name": "codec",
-          "type": "COMBO",
-          "widget": {
-            "name": "codec"
-          },
-          "link": null
+          "link": 27
         }
       ],
       "outputs": [
@@ -1190,6 +945,7 @@
           ]
         }
       ],
+      "title": "合成视频 + 音频",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -1213,56 +969,22 @@
     {
       "id": 21,
       "type": "SaveVideo",
-      "title": "保存数字人视频",
       "pos": [
-        530,
-        140
+        290.1744611511706,
+        -154.36904192726868
       ],
       "size": [
         390,
-        190
+        800
       ],
       "flags": {},
-      "order": 20,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
           "name": "video",
           "type": "VIDEO",
           "link": 26
-        },
-        {
-          "name": "filename_prefix",
-          "type": "STRING",
-          "widget": {
-            "name": "filename_prefix"
-          },
-          "link": null
-        },
-        {
-          "name": "format",
-          "type": "COMFY_DYNAMICCOMBO_V3",
-          "widget": {
-            "name": "format"
-          },
-          "link": null
-        },
-        {
-          "name": "format.codec",
-          "type": "COMFY_DYNAMICCOMBO_V3",
-          "widget": {
-            "name": "format.codec"
-          },
-          "link": null
-        },
-        {
-          "name": "codec",
-          "type": "COMFY_DYNAMICCOMBO_V3",
-          "widget": {
-            "name": "codec"
-          },
-          "link": null,
-          "shape": 7
         }
       ],
       "outputs": [
@@ -1272,6 +994,7 @@
           "links": []
         }
       ],
+      "title": "保存数字人视频",
       "properties": {
         "cnr_id": "comfy-core",
         "ver": "0.44.0",
@@ -1288,6 +1011,156 @@
         "format": "auto",
         "format.codec": "auto",
         "codec": "auto"
+      }
+    },
+    {
+      "id": 22,
+      "type": "ResolutionSelector",
+      "pos": [
+        -1677.0225597615724,
+        139.3649845401663
+      ],
+      "size": [
+        270,
+        150
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "showAdvanced": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            28
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.44.0",
+        "Node name for S&R": "ResolutionSelector"
+      },
+      "widgets_values": [
+        "16:9 (Widescreen)",
+        1,
+        32
+      ],
+      "widgets_values_named": {
+        "aspect_ratio": "16:9 (Widescreen)",
+        "megapixels": 1,
+        "multiple": 32
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 25,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -1674.8484920853855,
+        378.5664718014154
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            30,
+            31
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.44.0",
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        5
+      ],
+      "widgets_values_named": {
+        "value": 5
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 26,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -1207.6952440404466,
+        419.0994829076162
+      ],
+      "size": [
+        225,
+        128
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "a",
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 31
+        },
+        {
+          "name": "values.b",
+          "shape": 7,
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            32
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "widgets_values_named": {
+        "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
       }
     }
   ],
@@ -1315,38 +1188,6 @@
       16,
       0,
       "MODEL"
-    ],
-    [
-      4,
-      4,
-      0,
-      8,
-      0,
-      "CLIP"
-    ],
-    [
-      5,
-      5,
-      0,
-      8,
-      1,
-      "VAE"
-    ],
-    [
-      6,
-      6,
-      0,
-      8,
-      2,
-      "VAE"
-    ],
-    [
-      7,
-      7,
-      0,
-      8,
-      3,
-      "IMAGE"
     ],
     [
       8,
@@ -1485,12 +1326,52 @@
       "IMAGE"
     ],
     [
-      25,
-      19,
+      27,
+      10,
       0,
       20,
       1,
       "AUDIO"
+    ],
+    [
+      30,
+      25,
+      0,
+      10,
+      1,
+      "FLOAT"
+    ],
+    [
+      4,
+      4,
+      0,
+      8,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      5,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      6,
+      6,
+      0,
+      8,
+      2,
+      "VAE"
+    ],
+    [
+      7,
+      7,
+      0,
+      8,
+      3,
+      "IMAGE"
     ],
     [
       26,
@@ -1499,6 +1380,38 @@
       21,
       0,
       "VIDEO"
+    ],
+    [
+      31,
+      25,
+      0,
+      26,
+      0,
+      "FLOAT"
+    ],
+    [
+      28,
+      22,
+      0,
+      8,
+      8,
+      "INT"
+    ],
+    [
+      29,
+      22,
+      1,
+      8,
+      9,
+      "INT"
+    ],
+    [
+      32,
+      26,
+      1,
+      8,
+      10,
+      "INT"
     ]
   ],
   "groups": [
@@ -1508,8 +1421,8 @@
       "bounding": [
         -1700,
         -900,
-        460,
-        1200
+        462.5974025974026,
+        997.4025974025974
       ],
       "color": "#3f789e",
       "flags": {}
@@ -1530,8 +1443,8 @@
       "id": 3,
       "title": "数字人条件与 AV Latent",
       "bounding": [
-        -630,
-        -900,
+        -744.5218417945703,
+        -895.2774498229043,
         510,
         1450
       ],
@@ -1542,8 +1455,8 @@
       "id": 4,
       "title": "TaoMate HD 三段式采样",
       "bounding": [
-        -30,
-        -900,
+        -218.90200708382514,
+        -891.7355371900832,
         460,
         900
       ],
@@ -1554,10 +1467,10 @@
       "id": 5,
       "title": "解码与输出",
       "bounding": [
-        500,
-        -900,
-        470,
-        1300
+        265.05312868949255,
+        -887.0129870129867,
+        449.50959633904813,
+        1546.8605774390896
       ],
       "color": "#3f789e",
       "flags": {}
@@ -1566,12 +1479,17 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7,
+      "scale": 0.8470000000000011,
       "offset": [
-        900,
-        650
+        2638.720783355144,
+        949.0213810572272
       ]
-    }
+    },
+    "frontendVersion": "1.58.5",
+    "VHS_latentpreview": true,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
   },
   "version": 0.4
 }

@@ -7,6 +7,13 @@
 [![GitHub](https://img.shields.io/badge/GitHub-slmonker%2FComfyUI--TaoMateHD-181717)](https://github.com/slmonker/ComfyUI-TaoMateHD)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-TaoMate--HD--preview--comfy-yellow)](https://huggingface.co/slmonker/TaoMate-HD-preview-comfy)
 
+## 更新
+
+- **2026-11-07 — 数字人工作流：** 用单一示例 `examples/TaoMateHD_数字人.json` 替换此前的数字人草稿。
+- **AV latent mask：** `TaoMateHDProgressiveSampler` 现在支持 MiniMax H3 视频/音频 noise mask；`0` 保留，`1` 生成。
+- **分辨率对齐：** H3 生成尺寸必须按 32 像素对齐。数字人示例使用 `ResolutionSelector.multiple=32`，确保 VAE latent 两个空间轴均为偶数，可通过 2×2 patchification。
+
+
 ## 节点功能
 
 `TaoMate HD Progressive Sampler` 在一个 ComfyUI 节点内部执行 TaoMate-HD 的三次模型前向：
@@ -37,6 +44,7 @@
 - 通过原生 H3 `minimax_refs` 条件支持 Ref2VA
 - 使用耦合噪声完成低分辨率到高分辨率 latent 的提升
 - 支持原生 ComfyUI 音视频 latent
+- 支持 AV latent mask，可用于源音频保留和数字人工作流
 - 支持实验性的 4/6/8 步阶段细分
 
 Ref2VA 在当前 ComfyUI 适配中属于实验功能。它使用 MiniMax H3 原生参考条件路径，而不是 TaoMate-HD 官方公开脚本中的纯 T2VA 推理路径。
@@ -120,7 +128,7 @@ Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件�
 
 ### 数字人 / 源音频保留
 
-示例工作流：`examples/taomate_hd_digital_human.json`，API twin：`examples/taomate_hd_digital_human_api.json`。
+示例工作流：`examples/TaoMateHD_数字人.json`。
 
 ```text
 LoadImage / LoadAudio
@@ -133,7 +141,8 @@ LoadImage / LoadAudio
 - mask `1` = 生成，mask `0` = 保留。
 - 音频 latent 使用 `SolidMask=0`，采样时保留源音频并驱动口型。
 - 视频 latent 不设保留遮罩，因此画面仍由 H3 生成。
-- 示例为 5 秒、480×864、124 帧；修改 `TrimAudioDuration.duration` 时，同时按 24 FPS 和 17 帧对齐规则修改 `MiniMaxH3ReferenceToVideo.length`。
+- 示例使用 `ResolutionSelector`：16:9、1 MP、`multiple=32`，得到 1376×768 画布和 86×48 H3 latent。生成尺寸必须保持 32 像素对齐，才能通过 2×2 patchification。
+- `PrimitiveFloat` 控制 5 秒源音频时长，并同时参与 124 帧长度计算。修改时要确认音频长度与帧数仍然对齐。
 
 ## 节点输入
 
@@ -161,13 +170,16 @@ LoadImage / LoadAudio
 
 ## 示例工作流
 
-目录 [`examples/`](examples/) 只包含两个 UI 工作流：
+目录 [`examples/`](examples/) 包含三个 UI 工作流：
 
 - `taomateHD_t2va.json`
-  - 480 × 864，124 帧，原生 T2VA 条件
+  - 原生 T2VA 条件
 - `taomateHD_ref2va.json`
-  - 480 × 864，124 帧，原生 Ref2VA 条件
+  - 原生 Ref2VA 条件
   - 导入后请在 `LoadImage` 节点中选择自己的参考图
+- `TaoMateHD_数字人.json`
+  - 数字人源音频工作流，使用 AV latent mask 保留源音频
+  - 导入后请替换 `LoadImage` 的参考图和 `LoadAudio` 的源音频
 
 模型文件名使用 ComfyUI 中实际安装的模型名。请按本机环境选择对应的 H3 模型、文本编码器、视频 VAE 和音频 VAE。
 

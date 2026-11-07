@@ -1,14 +1,19 @@
 # TaoMate HD examples
 
-This directory contains two UI workflows:
+This directory contains three UI workflows:
 
 - `taomateHD_t2va.json`
   - 480 x 864, 124 frames, native MiniMax H3 T2VA conditioning
 - `taomateHD_ref2va.json`
   - 480 x 864, 124 frames, native MiniMax H3 Ref2VA conditioning
   - Choose your own reference image in the `LoadImage` node before running
+- `TaoMateHD_数字人.json`
+  - Digital-human workflow with reference-image conditioning and source-audio preservation
+  - Uses `SolidMask=0` on the audio latent so TaoMate HD keeps the source voice
+  - Uses `ResolutionSelector.multiple=32` so H3 latent spatial axes stay even
+  - Replace both the reference image and source audio before running
 
-Both workflows expect:
+All workflows expect:
 
 - `TaoMate-HD-preview-comfy.safetensors`
 - A MiniMax H3 model with T2VA or Ref2VA capability

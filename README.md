@@ -7,6 +7,12 @@ Unofficial ComfyUI adapter for the TaoMate-HD three-stage progressive sampler wi
 
 [简体中文说明](README.zh-CN.md)
 
+## Updates
+
+- **2026-11-07 — Digital human workflow:** replaced earlier digital-human drafts with the single example `examples/TaoMateHD_数字人.json`.
+- **AV latent masks:** `TaoMateHDProgressiveSampler` now accepts MiniMax H3 video/audio noise masks; `0` preserves and `1` generates.
+- **Resolution alignment:** H3 generation sizes must be 32-pixel aligned. The digital-human example uses `ResolutionSelector.multiple=32` so the VAE latent axes remain even for 2x2 patchification.
+
 ## What it does
 
 `TaoMate HD Progressive Sampler` executes TaoMate-HD's three model forwards inside one ComfyUI node:
@@ -37,6 +43,7 @@ The default `steps=3` therefore means:
 - Ref2VA support through native H3 `minimax_refs` conditioning
 - Coupled low/high video noise and audio noise
 - Native ComfyUI audio-video latent handling
+- AV latent-mask support for source-audio preservation and digital-human workflows
 - Optional experimental 4/6/8-step splits
 
 Ref2VA support in this ComfyUI adapter is experimental. It uses the native MiniMax H3 reference-conditioning path rather than the T2VA-only public TaoMate-HD inference script.
@@ -119,7 +126,7 @@ Use a Ref2VA-capable or hybrid H3 checkpoint for this path. Reference conditioni
 
 ### Digital human / source-audio preservation
 
-Example workflow: `examples/taomate_hd_digital_human.json`; API twin: `examples/taomate_hd_digital_human_api.json`.
+Example workflow: `examples/TaoMateHD_数字人.json`.
 
 ```text
 LoadImage / LoadAudio
@@ -132,7 +139,8 @@ LoadImage / LoadAudio
 - mask `1` generates; mask `0` preserves.
 - Use `SolidMask=0` on the audio latent to preserve the source voice and drive lip sync.
 - Leave the video latent unmasked so H3 generates the picture.
-- The example is 5 seconds, 480x864, 124 frames. If you change `TrimAudioDuration.duration`, update `MiniMaxH3ReferenceToVideo.length` at 24 FPS and according to the 17-frame alignment rule.
+- The example uses `ResolutionSelector` with 16:9, 1 MP and `multiple=32`, producing a 1376x768 canvas / 86x48 H3 latent. Keep generation dimensions 32-pixel aligned for 2x2 patchification.
+- `PrimitiveFloat` controls the 5-second source-audio duration; the same value feeds the 124-frame length calculation. Change it only after checking that the resulting audio and frame lengths remain aligned.
 
 ## Node inputs
 
@@ -162,10 +170,11 @@ Values above `3` only subdivide TaoMate's stages. They are experimental and are 
 
 See [`examples/`](examples/):
 
-- `taomateHD_t2va.json` - 480x864, 124 frames, native T2VA conditioning
-- `taomateHD_ref2va.json` - 480x864, 124 frames, native Ref2VA conditioning with a reference-image input
+- `taomateHD_t2va.json` - native T2VA conditioning
+- `taomateHD_ref2va.json` - native Ref2VA conditioning with a reference-image input
+- `TaoMateHD_数字人.json` - digital-human source-audio workflow with AV latent-mask preservation
 
-In `taomateHD_ref2va.json`, choose your own reference image in the `LoadImage` node before running.
+In `taomateHD_ref2va.json` and `TaoMateHD_数字人.json`, choose your own reference image in the `LoadImage` node before running. In the digital-human workflow, also choose your source audio in `LoadAudio`.
 
 Model names in the workflows are unqualified ComfyUI model names. Select the corresponding files installed in your own ComfyUI model directories.
 

@@ -13,8 +13,10 @@ import comfy.utils
 from comfy_api.latest import io
 
 from .progressive import (
+    CANVAS_MULTIPLE,
     DEFAULT_LOW_SCALE,
     SWITCH_STATE_INDEX,
+    VIDEO_LATENT_SPATIAL_COMPRESSION,
     ProgressiveCanvas,
     audio_noise,
     coupled_video_noise,
@@ -54,7 +56,17 @@ def _validate_h3_latent(latent):
     if int(video.shape[0]) != 1 or int(audio.shape[0]) != 1:
         raise ValueError("TaoMate HD currently supports batch size 1")
     if int(video.shape[-2]) % 2 or int(video.shape[-1]) % 2:
-        raise ValueError("H3 video latent spatial dimensions must be even for 2x2 patchification")
+        latent_height = int(video.shape[-2])
+        latent_width = int(video.shape[-1])
+        pixel_height = latent_height * VIDEO_LATENT_SPATIAL_COMPRESSION
+        pixel_width = latent_width * VIDEO_LATENT_SPATIAL_COMPRESSION
+        raise ValueError(
+            "H3 video latent spatial dimensions must be even for 2x2 patchification; "
+            f"got latent {latent_height}x{latent_width} "
+            f"(pixel canvas {pixel_height}x{pixel_width}). "
+            f"Use generation width and height that are multiples of {CANVAS_MULTIPLE}; "
+            f"for ResolutionSelector set multiple={CANVAS_MULTIPLE}."
+        )
     video_latent_t = int(video.shape[2])
     frame_count = latent_t_to_pixel_frames(video_latent_t)
     expected_audio_t = round(frame_count * 40.0 / 24.0)

@@ -49,6 +49,13 @@ class LatentMaskTests(unittest.TestCase):
         self.assertTrue(torch.equal(normalized_audio_mask[..., :3], torch.zeros(1, 1, 1, 3)))
         self.assertTrue(torch.equal(normalized_audio_mask[..., 3:], torch.ones(1, 1, 1, 3)))
 
+    def test_odd_video_latent_reports_resolution_alignment_hint(self):
+        video = torch.zeros(1, 24, 2, 7, 8)
+        audio = torch.zeros(1, 32, 2, 1)
+        latent = {"samples": comfy.nested_tensor.NestedTensor((video, audio))}
+        with self.assertRaisesRegex(ValueError, "multiple=32"):
+            nodes._validate_h3_latent(latent)
+
     def test_video_mask_and_anchor_scale_to_low_stage(self):
         video = torch.zeros(1, 24, 2, 8, 12)
         audio = torch.zeros(1, 32, 2, 6)
