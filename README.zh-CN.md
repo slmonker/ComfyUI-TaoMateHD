@@ -13,6 +13,13 @@
 - **AV latent mask：** `TaoMateHDProgressiveSampler` 现在支持 MiniMax H3 视频/音频 noise mask；`0` 保留，`1` 生成。
 - **分辨率对齐：** H3 生成尺寸必须按 32 像素对齐。数字人示例使用 `ResolutionSelector.multiple=32`，确保 VAE latent 两个空间轴均为偶数，可通过 2×2 patchification。
 - **SOL 加速数字人：** 新增 `examples/TaoMateHD_数字人_SOL加速.json`，包含 SOL 块稀疏注意力、本地提示词增强和预览节点。
+- **演示视频：** SOL 数字人展示视频已加入 `demo/`，并在 README 顶部提供动态预览。
+
+## 演示
+
+[![TaoMate HD + SOL 数字人演示](demo/taomate_hd_digital_human_sol.gif)](demo/taomate_hd_digital_human_sol.mp4)
+
+*TaoMate HD + SOL 数字人演示：1920×1088，24 FPS，5.17 秒。点击预览可打开带声音的 MP4。*
 
 ## 节点功能
 

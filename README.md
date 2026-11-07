@@ -13,6 +13,13 @@ Unofficial ComfyUI adapter for the TaoMate-HD three-stage progressive sampler wi
 - **AV latent masks:** `TaoMateHDProgressiveSampler` now accepts MiniMax H3 video/audio noise masks; `0` preserves and `1` generates.
 - **Resolution alignment:** H3 generation sizes must be 32-pixel aligned. The digital-human example uses `ResolutionSelector.multiple=32` so the VAE latent axes remain even for 2x2 patchification.
 - **SOL-accelerated digital human:** added `examples/TaoMateHD_数字人_SOL加速.json` with SOL block-sparse attention, local prompt enhancement and preview nodes.
+- **Demo video:** added the SOL digital-human showcase to `demo/` and previewed it near the top of this README.
+
+## Demo
+
+[![TaoMate HD + SOL digital-human demo](demo/taomate_hd_digital_human_sol.gif)](demo/taomate_hd_digital_human_sol.mp4)
+
+*TaoMate HD + SOL digital-human demo — 1920x1088, 24 FPS, 5.17 seconds. Click the preview to open the MP4 with audio.*
 
 ## What it does
 

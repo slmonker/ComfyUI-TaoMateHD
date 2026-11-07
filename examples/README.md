@@ -27,3 +27,8 @@ All workflows expect:
 The converted LoRA is available at:
 
 https://huggingface.co/slmonker/TaoMate-HD-preview-comfy
+
+## Demo
+
+- [Animated preview](../demo/taomate_hd_digital_human_sol.gif)
+- [MP4 with audio](../demo/taomate_hd_digital_human_sol.mp4)
