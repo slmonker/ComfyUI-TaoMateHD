@@ -9,10 +9,10 @@
 
 ## 更新
 
-- **2026-11-07 — 数字人工作流：** 用单一示例 `examples/TaoMateHD_数字人.json` 替换此前的数字人草稿。
+- **2026-11-07 — 数字人工作流：** 用主示例 `examples/TaoMateHD_数字人.json` 替换此前的数字人草稿。
 - **AV latent mask：** `TaoMateHDProgressiveSampler` 现在支持 MiniMax H3 视频/音频 noise mask；`0` 保留，`1` 生成。
 - **分辨率对齐：** H3 生成尺寸必须按 32 像素对齐。数字人示例使用 `ResolutionSelector.multiple=32`，确保 VAE latent 两个空间轴均为偶数，可通过 2×2 patchification。
-
+- **SOL 加速数字人：** 新增 `examples/TaoMateHD_数字人_SOL加速.json`，包含 SOL 块稀疏注意力、本地提示词增强和预览节点。
 
 ## 节点功能
 
@@ -45,6 +45,7 @@
 - 使用耦合噪声完成低分辨率到高分辨率 latent 的提升
 - 支持原生 ComfyUI 音视频 latent
 - 支持 AV latent mask，可用于源音频保留和数字人工作流
+- 提供可选的 SOL 块稀疏加速数字人示例
 - 支持实验性的 4/6/8 步阶段细分
 
 Ref2VA 在当前 ComfyUI 适配中属于实验功能。它使用 MiniMax H3 原生参考条件路径，而不是 TaoMate-HD 官方公开脚本中的纯 T2VA 推理路径。
@@ -128,7 +129,9 @@ Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件�
 
 ### 数字人 / 源音频保留
 
-示例工作流：`examples/TaoMateHD_数字人.json`。
+标准工作流：`examples/TaoMateHD_数字人.json`。
+
+SOL 加速工作流：`examples/TaoMateHD_数字人_SOL加速.json`。
 
 ```text
 LoadImage / LoadAudio
@@ -143,6 +146,7 @@ LoadImage / LoadAudio
 - 视频 latent 不设保留遮罩，因此画面仍由 H3 生成。
 - 示例使用 `ResolutionSelector`：16:9、1 MP、`multiple=32`，得到 1376×768 画布和 86×48 H3 latent。生成尺寸必须保持 32 像素对齐，才能通过 2×2 patchification。
 - `PrimitiveFloat` 控制 5 秒源音频时长，并同时参与 124 帧长度计算。修改时要确认音频长度与帧数仍然对齐。
+- SOL 版本还使用 `BlockSparseAttention`（`sol-attn`）、`QwenH3PromptLocal`、`ModelPreviewOverrideKJ` 和 `PreviewAny`；导入前请安装对应自定义节点包。
 
 ## 节点输入
 
@@ -180,6 +184,10 @@ LoadImage / LoadAudio
 - `TaoMateHD_数字人.json`
   - 数字人源音频工作流，使用 AV latent mask 保留源音频
   - 导入后请替换 `LoadImage` 的参考图和 `LoadAudio` 的源音频
+- `TaoMateHD_数字人_SOL加速.json`
+  - SOL 块稀疏加速数字人工作流
+  - 额外包含本地提示词增强、模型预览和 SOL 注意力节点
+  - 导入后请替换参考图与源音频，并安装对应自定义节点包
 
 模型文件名使用 ComfyUI 中实际安装的模型名。请按本机环境选择对应的 H3 模型、文本编码器、视频 VAE 和音频 VAE。
 

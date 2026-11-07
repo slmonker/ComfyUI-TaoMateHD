@@ -1,6 +1,6 @@
 # TaoMate HD examples
 
-This directory contains three UI workflows:
+This directory contains four UI workflows:
 
 - `taomateHD_t2va.json`
   - 480 x 864, 124 frames, native MiniMax H3 T2VA conditioning
@@ -11,6 +11,11 @@ This directory contains three UI workflows:
   - Digital-human workflow with reference-image conditioning and source-audio preservation
   - Uses `SolidMask=0` on the audio latent so TaoMate HD keeps the source voice
   - Uses `ResolutionSelector.multiple=32` so H3 latent spatial axes stay even
+  - Replace both the reference image and source audio before running
+- `TaoMateHD_数字人_SOL加速.json`
+  - SOL block-sparse accelerated digital-human workflow
+  - Adds `BlockSparseAttention` (`sol-attn`), local prompt enhancement, model preview and preview output nodes
+  - Requires the corresponding custom-node packs in addition to the TaoMate HD requirements
   - Replace both the reference image and source audio before running
 
 All workflows expect:
