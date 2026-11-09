@@ -67,6 +67,12 @@ Ref2VA support in this ComfyUI adapter is experimental. It uses the native MiniM
 
 ## Installation
 
+### ComfyUI Manager
+
+Search for **TaoMate-HD Progressive Sampler** in ComfyUI Manager, or install Registry ID `taomate-hd`.
+
+[Comfy Registry page](https://registry.comfy.org/nodes/taomate-hd)
+
 ```bash
 cd ComfyUI/custom_nodes
 git clone https://github.com/slmonker/ComfyUI-TaoMateHD.git
