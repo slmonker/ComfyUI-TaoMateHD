@@ -9,10 +9,10 @@ Unofficial ComfyUI adapter for the TaoMate-HD three-stage progressive sampler wi
 
 ## Updates
 
-- **2026-11-07 — Digital human workflow:** replaced earlier digital-human drafts with the canonical example `examples/TaoMateHD_数字人.json`.
+- **2026-11-07 — Digital human workflow:** replaced earlier digital-human drafts with the canonical example `examples/TaoMateHD_digital_human.json`.
 - **AV latent masks:** `TaoMateHDProgressiveSampler` now accepts MiniMax H3 video/audio noise masks; `0` preserves and `1` generates.
 - **Resolution alignment:** H3 generation sizes must be 32-pixel aligned. The digital-human example uses `ResolutionSelector.multiple=32` so the VAE latent axes remain even for 2x2 patchification.
-- **SOL-accelerated digital human:** added `examples/TaoMateHD_数字人_SOL加速.json` with SOL block-sparse attention, local prompt enhancement and preview nodes.
+- **SOL-accelerated digital human:** added `examples/TaoMateHD_digital_human_SOL.json` with SOL block-sparse attention, local prompt enhancement and preview nodes.
 - **Demo video:** added the SOL digital-human showcase to `demo/` and previewed it near the top of this README.
 
 ## Demo
@@ -135,9 +135,9 @@ Use a Ref2VA-capable or hybrid H3 checkpoint for this path. Reference conditioni
 
 ### Digital human / source-audio preservation
 
-Standard workflow: `examples/TaoMateHD_数字人.json`.
+Standard workflow: `examples/TaoMateHD_digital_human.json`.
 
-SOL-accelerated workflow: `examples/TaoMateHD_数字人_SOL加速.json`.
+SOL-accelerated workflow: `examples/TaoMateHD_digital_human_SOL.json`.
 
 ```text
 LoadImage / LoadAudio
@@ -184,8 +184,8 @@ See [`examples/`](examples/):
 
 - `taomateHD_t2va.json` - native T2VA conditioning
 - `taomateHD_ref2va.json` - native Ref2VA conditioning with a reference-image input
-- `TaoMateHD_数字人.json` - digital-human source-audio workflow with AV latent-mask preservation
-- `TaoMateHD_数字人_SOL加速.json` - SOL block-sparse accelerated digital-human workflow with prompt enhancement and previews
+- `TaoMateHD_digital_human.json` - digital-human source-audio workflow with AV latent-mask preservation
+- `TaoMateHD_digital_human_SOL.json` - SOL block-sparse accelerated digital-human workflow with prompt enhancement and previews
 
 In `taomateHD_ref2va.json` and both digital-human workflows, choose your own reference image in `LoadImage` before running. In the digital-human workflows, also choose your source audio in `LoadAudio`.
 
@@ -227,3 +227,4 @@ This is an unofficial ComfyUI adaptation and is not affiliated with Alibaba TaoL
 - MiniMax H3: https://huggingface.co/MiniMaxAI/MiniMax-H3
 
 The adapted implementation follows the MiniMax H3 Community License Agreement. See [LICENSE](LICENSE) and [NOTICE](NOTICE). The base model and upstream adapter remain subject to their original licenses.
+

@@ -7,12 +7,12 @@ This directory contains four UI workflows:
 - `taomateHD_ref2va.json`
   - 480 x 864, 124 frames, native MiniMax H3 Ref2VA conditioning
   - Choose your own reference image in the `LoadImage` node before running
-- `TaoMateHD_数字人.json`
+- `TaoMateHD_digital_human.json`
   - Digital-human workflow with reference-image conditioning and source-audio preservation
   - Uses `SolidMask=0` on the audio latent so TaoMate HD keeps the source voice
   - Uses `ResolutionSelector.multiple=32` so H3 latent spatial axes stay even
   - Replace both the reference image and source audio before running
-- `TaoMateHD_数字人_SOL加速.json`
+- `TaoMateHD_digital_human_SOL.json`
   - SOL block-sparse accelerated digital-human workflow
   - Adds `BlockSparseAttention` (`sol-attn`), local prompt enhancement, model preview and preview output nodes
   - Requires the corresponding custom-node packs in addition to the TaoMate HD requirements
@@ -32,3 +32,4 @@ https://huggingface.co/slmonker/TaoMate-HD-preview-comfy
 
 - [Animated preview](../demo/taomate_hd_digital_human_sol.gif)
 - [MP4 with audio](../demo/taomate_hd_digital_human_sol.mp4)
+

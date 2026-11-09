@@ -9,10 +9,10 @@
 
 ## 更新
 
-- **2026-11-07 — 数字人工作流：** 用主示例 `examples/TaoMateHD_数字人.json` 替换此前的数字人草稿。
+- **2026-11-07 — 数字人工作流：** 用主示例 `examples/TaoMateHD_digital_human.json` 替换此前的数字人草稿。
 - **AV latent mask：** `TaoMateHDProgressiveSampler` 现在支持 MiniMax H3 视频/音频 noise mask；`0` 保留，`1` 生成。
 - **分辨率对齐：** H3 生成尺寸必须按 32 像素对齐。数字人示例使用 `ResolutionSelector.multiple=32`，确保 VAE latent 两个空间轴均为偶数，可通过 2×2 patchification。
-- **SOL 加速数字人：** 新增 `examples/TaoMateHD_数字人_SOL加速.json`，包含 SOL 块稀疏注意力、本地提示词增强和预览节点。
+- **SOL 加速数字人：** 新增 `examples/TaoMateHD_digital_human_SOL.json`，包含 SOL 块稀疏注意力、本地提示词增强和预览节点。
 - **演示视频：** SOL 数字人展示视频已加入 `demo/`，并在 README 顶部提供动态预览。
 
 ## 演示
@@ -136,9 +136,9 @@ Ref2VA 需要使用具备 Ref2VA 能力的模型或混合模型。参考条件�
 
 ### 数字人 / 源音频保留
 
-标准工作流：`examples/TaoMateHD_数字人.json`。
+标准工作流：`examples/TaoMateHD_digital_human.json`。
 
-SOL 加速工作流：`examples/TaoMateHD_数字人_SOL加速.json`。
+SOL 加速工作流：`examples/TaoMateHD_digital_human_SOL.json`。
 
 ```text
 LoadImage / LoadAudio
@@ -188,10 +188,10 @@ LoadImage / LoadAudio
 - `taomateHD_ref2va.json`
   - 原生 Ref2VA 条件
   - 导入后请在 `LoadImage` 节点中选择自己的参考图
-- `TaoMateHD_数字人.json`
+- `TaoMateHD_digital_human.json`
   - 数字人源音频工作流，使用 AV latent mask 保留源音频
   - 导入后请替换 `LoadImage` 的参考图和 `LoadAudio` 的源音频
-- `TaoMateHD_数字人_SOL加速.json`
+- `TaoMateHD_digital_human_SOL.json`
   - SOL 块稀疏加速数字人工作流
   - 额外包含本地提示词增强、模型预览和 SOL 注意力节点
   - 导入后请替换参考图与源音频，并安装对应自定义节点包
@@ -239,3 +239,4 @@ LoadImage / LoadAudio
 - MiniMax H3：https://huggingface.co/MiniMaxAI/MiniMax-H3
 
 适配代码遵循 MiniMax H3 Community License Agreement。请参阅 [LICENSE](LICENSE) 和 [NOTICE](NOTICE)。基础模型和上游适配器仍适用其原始许可。
+
